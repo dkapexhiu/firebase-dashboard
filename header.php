@@ -39,6 +39,8 @@
                 document.getElementById('logout').onclick = function () {
                     if (confirm('Logout?')) {
                         firebase.auth().signOut(); // This will trigger onAuthStateChanged again, immediately.
+                        location.reload();
+                        return false;
                     }
                 };
 </script>
