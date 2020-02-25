@@ -1,74 +1,46 @@
-<?php include('header.php'); ?>
-        
-        <h1>Firebase - Login</h1>
+<!DOCTYPE html>
+<html lang="en">
 
-        <div id="firebaseui-auth-container"></div>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Firebase CRUD</title>
 
-        <div id="logged" style="display:none;">You are logged in!</div>
+    <!-- Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
 
-    </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
+</head>
 
-    <!-- member plugins -->
-    <script src="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.css" />
-    <!-- End - member plugins -->
+<body>
+    <div class="container">
+        <br>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nav" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="index.php">Firebase</a>
+                </div>
+                <div class="collapse navbar-collapse" id="nav">
+                    <ul class="nav navbar-nav">
+                        <li><a href="login.php">Member</a></li>
+                        <button id="logout" class="btn btn-lg btn-warning" style="display:none;">Logout</button>
+                    </ul>
+                </div>
+            </div>
+        </nav>
 
-    <script>
-        // firebase config
-        var config = {
-            apiKey: "AIzaSyBz4bWcC_h6rKV7Mq5bG6z2tN5zEWJ5U2Y",
-            authDomain: "scrim-58b33.firebaseapp.com",
-            databaseURL: "https://scrim-58b33.firebaseio.com",
-            projectId: "scrim-58b33",
-            storageBucket: "scrim-58b33.appspot.com",
-            messagingSenderId: "108163156657",
-            appId: "1:108163156657:web:a0f780a0afe1543b303090"
-        };
-        firebase.initializeApp(config);
-
-        /////////////////////////////////////
-
-
-        /**********************\
-         * Check login status *
-        \**********************/
-
-        firebase.auth().onAuthStateChanged(function (user) {
-            if (user) { // if already logged in
-                $('#logout').show();
-                $('#firebaseui-auth-container').hide();
-                $('#logged').show();
-            }
-        });
-
-        /*******************\
-         * init Login UI *
-        \*******************/
-
-        // FirebaseUI config.
-        var uiConfig = {
-            'signInSuccessUrl': false,
-            'signInOptions': [
-              // comment unused sign-in method
-              firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-              //firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-              //firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-              //firebase.auth.GithubAuthProvider.PROVIDER_ID,
-              //firebase.auth.EmailAuthProvider.PROVIDER_ID
-            ],
-            // Terms of service url.
-            'tosUrl': false,
-        };
-
-        // Initialize the FirebaseUI Widget using Firebase.
-        var ui = new firebaseui.auth.AuthUI(firebase.auth());
-        // The start method will wait until the DOM is loaded.
-        ui.start('#firebaseui-auth-container', uiConfig);
-
-        ////////////////////////////////////////
-    </script>
-
-<?php include('footer.php'); ?>
+<script>
+                document.getElementById('logout').onclick = function () {
+                    if (confirm('Logout?')) {
+                        firebase.auth().signOut(); // This will trigger onAuthStateChanged again, immediately.
+                        location.reload();
+                        return false;
+                    }
+                };
+</script>
